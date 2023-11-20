@@ -27,7 +27,7 @@ class ChatReadRetrieveReadApproach(Approach):
     then uses Azure AI Search to retrieve relevant documents, and then sends the conversation history,
     original user question, and search results to OpenAI to generate a response.
     """
-    system_message_chat_conversation = """Assistant helps the company employees with their healthcare plan questions, and questions about the employee handbook. Be brief in your answers.
+    system_message_chat_conversation = """Assistant helps the recruiters and potential employers with my resume questions, and unlock insights into my professional journey, expertise in Cyber/cloud engineering/IT, and details about my roles, certifications, and collaborations with a personalized chat. Be brief in your answers.
 Answer ONLY with the facts listed in the list of sources below. If there isn't enough information below, say you don't know. Do not generate answers that don't use the sources below. If asking a clarifying question to the user would help, ask the question.
 For tabular information return it as an html table. Do not return markdown format. If the question is not in English, answer in the language used in the question.
 Each source has a name followed by colon and the actual information, always include the source name for each fact you use in the response. Use square brackets to reference the source, for example [info1.txt]. Don't combine sources, list each source separately, for example [info1.txt][info2.pdf].
@@ -36,9 +36,9 @@ Each source has a name followed by colon and the actual information, always incl
 """
     follow_up_questions_prompt_content = """Generate 3 very brief follow-up questions that the user would likely ask next.
 Enclose the follow-up questions in double angle brackets. Example:
-<<Are there exclusions for prescriptions?>>
-<<Which pharmacies can be ordered from?>>
-<<What is the limit for over-the-counter medication?>>
+<<What specific projects have you worked on?>>
+<<Can you provide more details about your role in Azure?>>
+<<How do you contribute to open-source projects?>>
 Do no repeat questions that have already been asked.
 Make sure the last question ends with ">>"."""
 
@@ -52,10 +52,10 @@ If the question is not in English, translate the question to English before gene
 If you cannot generate a search query, return just the number 0.
 """
     query_prompt_few_shots = [
-        {"role": USER, "content": "What are my health plans?"},
-        {"role": ASSISTANT, "content": "Show available health plans"},
-        {"role": USER, "content": "does my plan cover cardio?"},
-        {"role": ASSISTANT, "content": "Health plan cardio coverage"},
+        {"role": USER, "content": "What certificates or degrees do you hold?"},
+        {"role": ASSISTANT, "content": "List available certificates and degree"},
+        {"role": USER, "content": "What cloud platform tools do you specialize in?"},
+        {"role": ASSISTANT, "content": "List items from my Tech Stack"},
     ]
 
     def __init__(
@@ -108,7 +108,7 @@ If you cannot generate a search query, return just the number 0.
                     "properties": {
                         "search_query": {
                             "type": "string",
-                            "description": "Query string to retrieve documents from azure search eg: 'Health care plan'",
+                            "description": "Query string to retrieve documents from azure search eg: 'Damien_Rivers_Resume'",
                         }
                     },
                     "required": ["search_query"],
